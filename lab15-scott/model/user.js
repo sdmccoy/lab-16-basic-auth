@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
   username: {type: String, required: true, unique: true, min: 1},
   email: {type: String, required: true, unique: true},
   passwordHash: {type: String, unique:true},
-  seedToken: {type: String},
+  seedToken: {type: String, unique: true, required: true},
 });
 
 module.exports = mongoose.model('user', userSchema);
