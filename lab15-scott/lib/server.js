@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 app.use(cors());
 app.use(morgan('dev'));
-// app.use(require('../route/user-router.js'));
+app.use(require('../route/user-router.js'));
 
 
 const serverControl = module.exports = {};
