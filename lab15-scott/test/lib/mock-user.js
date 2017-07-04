@@ -21,7 +21,6 @@ mockUser.createOne = () => {
     return user.tokenCreate;
   })
   .then(token => {
-    console.log('mock token: ', token);
     result.token = token;
     return result;
   });

@@ -54,4 +54,36 @@ describe('Testing for user routes', () => {
     });
   });
 
+  describe('\nTesting GET route /api/signin', () => {
+    describe('\nIf the get is successful', () => {
+      it('It should return a token', () => {
+        let tempUser = {};
+        return mockUser.createOne()
+        .then(newUser => {
+          tempUser = newUser;
+          console.log('tempUser: ', tempUser);
+          console.log('tempUserusername: ', tempUser.user.username);
+          console.log('tempUserpw: ', tempUser.password);
+          let encoded = new Buffer(`${tempUser.user.username}:${tempUser.password}`).toString('base64');
+          return superagent.get(`${API_URL}/api/signin`)
+          .set('Authorization', `Basic ${encoded}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.text).toExist();
+          expect(res.text.length > 1).toBeTruthy();
+        });
+      });
+    });
+    describe('\nIf inputting bad pathname', () => {
+      it('It should return a 404 status', () => {
+        return superagent.get(`${API_URL}/api/badpath`)
+        .send({username: 'dingo', email: 'dogs@example.com', password: 'secret password'})
+        .catch(res => {
+          expect(res.status).toEqual(404);
+        });
+      });
+    });
+  });
+
 });

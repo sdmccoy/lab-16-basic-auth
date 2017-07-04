@@ -5,7 +5,7 @@ const User = require('../model/user.js');
 
 module.exports = (req, res, next) => {
   //get the auhtorization property on the header portion of the request
-  const {authorization} = req.header;
+  const {authorization} = req.headers;
   console.log('authorization: ', authorization);
   //return an error if no authorization property is found
   if (!authorization) return next(createError('No authorization provided'));
