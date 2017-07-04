@@ -14,15 +14,23 @@ describe('Testing for user routes', () => {
   afterEach(clearDB);
 
   describe('\nTesting POST route /api/signup', () => {
-    describe('If the post is successful', () => {
+    describe('\nIf the post is successful', () => {
       it('It should return a token', () => {
         return superagent.post(`${API_URL}/api/signup`)
         .send({username: 'dingo', email: 'dogs@example.com', password: 'secret password'})
         .then(res => {
-          console.log('Token res: ', res.text);
           expect(res.status).toEqual(200);
           expect(res.text).toExist();
           expect(res.text.length > 1).toBeTruthy();
+        });
+      });
+    });
+    describe('\nIf inputting bad pathname', () => {
+      it('It should return a 404 status', () => {
+        return superagent.post(`${API_URL}/api/badpath`)
+        .send({username: 'dingo', email: 'dogs@example.com', password: 'secret password'})
+        .catch(res => {
+          expect(res.status).toEqual(404);
         });
       });
     });
