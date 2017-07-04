@@ -34,6 +34,24 @@ describe('Testing for user routes', () => {
         });
       });
     });
+    describe('\nIf inputting invalid body content', () => {
+      it('It should return a 401 status', () => {
+        return superagent.post(`${API_URL}/api/signup`)
+        .send({username: 587, email: 'dogs@example.com', password: 'secret password'})
+        .catch(res => {
+          expect(res.status).toEqual(400);
+        });
+      });
+    });
+    describe('\nIf inputting NO body content', () => {
+      it('It should return a 401 status', () => {
+        return superagent.post(`${API_URL}/api/signup`)
+        .send({})
+        .catch(res => {
+          expect(res.status).toEqual(401);
+        });
+      });
+    });
   });
 
 });

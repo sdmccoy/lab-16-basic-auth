@@ -18,8 +18,11 @@ const userSchema = mongoose.Schema({
 //this will take the password inputted on sign up, encode it, and save it as the new hash pw.
 userSchema.methods.passwordHashCreate = function(password){
   //use hash method from bcrypt, pass in the passord, iterate over 8 times.
+  console.log('pwhashcreate pw: ', password);
+  console.log('pwhashcreate this pw: ', this.password);
   return bcrypt.hash(password, 8)
   .then(hash => {
+    console.log('pwhashcreate hash result: ', hash);
     this.passwordHash = hash;
     //returning this to be used in the next function
     return this;
@@ -28,6 +31,8 @@ userSchema.methods.passwordHashCreate = function(password){
 
 //this will compare the password inputted on GET or logins and match it with the encoded passwordHash
 userSchema.methods.passwordHashCompare = function(password){
+  console.log('password: ', password);
+  console.log('thispasswordhash: ', this.passwordHash);
   //use the compare method to pass in the pw and compare to the users pwhash value: returns boolean
   return bcrypt.compare(password, this.passwordHash)
   .then(isAMatch => {
@@ -74,9 +79,11 @@ userSchema.methods.tokenCreate = function(){
 const User = module.exports = mongoose.model('user', userSchema);
 
 User.create = function(data){
+  console.log('create fn pw: ', data.password);
   //delete the password from the object but save it in a variable to use temporarily.
   let password = data.password;
   delete data.password;
+  console.log('create fn pw after: ', password);
   //create a new user based on the req data passed in. Invoke the hash function with the temp saved pw
   // invoke the tokenCreate on the newUser object to give it a token.
   return new User(data)
