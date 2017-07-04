@@ -84,6 +84,7 @@ User.create = function(data){
   let password = data.password;
   delete data.password;
   console.log('create fn pw after: ', password);
+  console.log('create type of username: ', typeof data.username);
   //create a new user based on the req data passed in. Invoke the hash function with the temp saved pw
   // invoke the tokenCreate on the newUser object to give it a token.
   return new User(data)

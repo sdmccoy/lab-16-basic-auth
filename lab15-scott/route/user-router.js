@@ -12,6 +12,8 @@ userRouter.post('/api/signup', jsonParser, (req, res, next) => {
   if (Object.keys(req.body).length < 1) {
     return next(createError('Please input a body'));
   }
+  console.log('req.body.username: ', req.body.username);
+  console.log('req.body.username type of: ', typeof req.body.username);
   console.log('req.body: ', req.body);
   User.create(req.body)
   .then(token => res.json(token))

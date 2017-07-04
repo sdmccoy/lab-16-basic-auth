@@ -39,7 +39,7 @@ describe('Testing for user routes', () => {
         return superagent.post(`${API_URL}/api/signup`)
         .send({username: 587, email: 'dogs@example.com', password: 'secret password'})
         .catch(res => {
-          expect(res.status).toEqual(400);
+          expect(res.status).toEqual(401);
         });
       });
     });
