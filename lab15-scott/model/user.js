@@ -70,4 +70,11 @@ userSchema.methods.tokenSeedCreate = function(){
   });
 };
 
-//create a token for the user
+//create a token from the tokenSeed function
+userSchema.methods.tokenCreate = function(){
+  return this.tokenSeedCreate()
+  .then(() => {
+    //use jsonwebtoken sign method to take in the token seed and our secret app pw
+    return jwt.sign({tokenSeed: this.tokenSeed}, )
+  })
+};
