@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
   tokenSeed: {type: String, unique: true, required: true},
 });
 
-module.exports = mongoose.model('user', userSchema);
+const User = module.exports = mongoose.model('user', userSchema);
 
 //create methods on the schema to use for encryption logic
 
@@ -75,6 +75,17 @@ userSchema.methods.tokenCreate = function(){
   return this.tokenSeedCreate()
   .then(() => {
     //use jsonwebtoken sign method to take in the token seed and our secret app pw
-    return jwt.sign({tokenSeed: this.tokenSeed}, )
-  })
+    return jwt.sign({tokenSeed: this.tokenSeed}, process.env.APP_SECRET);
+  });
+};
+
+User.create = function(data){
+  //delete the password from the object but save it in a variable to use temporarily.
+  let password = data.password;
+  delete data.password;
+  //create a new user based on the req data passed in. Invoke the hash function with the temp saved pw
+  // invoke the tokenCreate on the newUser object to give it a token. 
+  return new User(data)
+  .passwordHashCreate(password)
+  .then(newUser => newUser.tokenCreate());
 };
