@@ -1,10 +1,10 @@
 'use strict';
 
-const dotenv = require('dotenv').config({path: `../.test.env`});
+require('dotenv').config({path: `${__dirname}/../.test.env`});
 const expect = require('expect');
 const superagent = require('superagent');
 const server = require('../lib/server.js');
-const clearDB = require('../lib/clear-db.js');
+const clearDB = require('./lib/clear-db.js');
 const mockUser = require('./lib/mock-user.js');
 const API_URL = process.env.API_URL;
 
@@ -13,17 +13,16 @@ describe('Testing for user routes', () => {
   after(server.stop);
   afterEach(clearDB);
 
-  describe('Testing POST route /api/signup', () => {
+  describe('\nTesting POST route /api/signup', () => {
     describe('If the post is successful', () => {
-      it('It should return a new user', () => {
+      it('It should return a token', () => {
         return superagent.post(`${API_URL}/api/signup`)
-        .send({username: 'dingo', email: 'dogs@example.com', passwordHash: 'secret password'})
+        .send({username: 'dingo', email: 'dogs@example.com', password: 'secret password'})
         .then(res => {
+          console.log('Token res: ', res.text);
           expect(res.status).toEqual(200);
-          expect(res.body.username).toEqual('dingo');
-          expect(res.body.email).toEqual('dogs@example.com');
-          expect(res.body.passwordHash).toExist();
-          expect(res.body.tokenSeed).toExist();
+          expect(res.text).toExist();
+          expect(res.text.length > 1).toBeTruthy();
         });
       });
     });

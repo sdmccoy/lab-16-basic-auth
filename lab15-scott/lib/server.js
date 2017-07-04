@@ -12,6 +12,9 @@ mongoose.connect(process.env.MONGODB_URI);
 app.use(cors());
 app.use(morgan('dev'));
 app.use(require('../route/user-router.js'));
+//404 catch all route
+app.use('/api/*', (req, res, next) => res.sendStatus(404));
+app.use(require('./error-middleware.js'));
 
 
 const serverControl = module.exports = {};
