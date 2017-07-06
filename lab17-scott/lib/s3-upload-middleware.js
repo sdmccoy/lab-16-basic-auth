@@ -14,9 +14,9 @@ const upload = multer({dest: `${__dirname}/../temp-assets`});
 
 //multer returns a callback with fieldnames which returns another function
 module.exports = (fieldName) => (req, res, next) => {
-  console.log('fieldname: ', fieldName);
   //use .single method from multer to add the body/file objects
   upload.single(fieldName)(req, res, (err => {
+    console.log('fieldName: ', fieldName);
     if (err) return next(err);
     //if a file wasn't loaded there wouldn't be a file object. throw error
     if (!req.file) return next(new Error('validation failed, no file uploaded'));
@@ -33,6 +33,7 @@ module.exports = (fieldName) => (req, res, next) => {
     })
     .promise()
     .then(s3Data => {
+      console.log('s3Data: ', s3Data);
       //save the data returned to the req object
       req.s3Data = s3Data;
       //use fs to remove the file from our temp assets

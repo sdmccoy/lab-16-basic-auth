@@ -27,13 +27,13 @@ describe('\nTesting review routes', () => {
           .set('Authorization', `Bearer ${tempUser.token}`)
           .field('resortName', 'Big Bear')
           .field('rating', 3)
-          .attach('imageURI', `${__dirname}/assets/ski.jpg`)
+          .attach('image', `${__dirname}/assets/ski.jpg`)
           .then(res => {
             console.log('res body: ', res.body);
             expect(res.status).toEqual(200);
             expect(res.body.resortName).toEqual('Big Bear');
             expect(res.body.rating).toEqual(3);
-            expect(res.body.userID).toEqual(tempUser._id);
+            expect(res.body.userID).toEqual(tempUser.user._id);
             expect(res.body.imageURI).toExist();
           });
         });
