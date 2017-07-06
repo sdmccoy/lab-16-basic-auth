@@ -12,7 +12,6 @@ const userSchema = mongoose.Schema({
   tokenSeed: {type: String, unique: true, required: true},
 });
 
-
 //create methods on the schema to use for encryption logic
 
 //this will take the password inputted on sign up, encode it, and save it as the new hash pw.
@@ -33,7 +32,7 @@ userSchema.methods.passwordHashCompare = function(password){
   .then(isAMatch => {
     if (isAMatch) {
       //return the object if it's a match
-      return  this;
+      return this;
     }
     //otherwise throw an Error
     throw new Error('authorization failed. Password did not match');
