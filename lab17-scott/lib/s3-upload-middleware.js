@@ -5,7 +5,7 @@ const path = require('path');
 //use fsextra to read the file contents an put on the body key
 const fs = require('fs-extra');
 //use awssdk to construct the file and upload it to the bucket
-const {s3} = require('aws-sdk');
+const {S3} = require('aws-sdk');
 //use s3 to call the object constructor
 const s3 = new S3();
 //use multer to add body and file objects to the request body

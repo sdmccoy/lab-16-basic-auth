@@ -4,6 +4,8 @@
 const jwt = require('jsonwebtoken');
 //require in http errors to create new errors
 const createError = require('http-errors');
+//universalify to solve the promise handler on the jwt.
+const universalify = require('universalify');
 //require in user model to authorize the user with bearer
 const User = require('../model/user.js');
 
@@ -18,7 +20,7 @@ module.exports = (req, res, next) => {
   let token = authorization.split('Bearer ')[1];
   if (!token) return next(createError('authorization failed, no bearer token'));
   //use jwt verify method to decrypt the token & our app secret to see if it matches
-  jwt.verify(token, process.env.APP_SECRET)
+  universalify.fromCallback(jwt.verify(token, process.env.APP_SECRET))
   .then(decoded => {
     console.log('decoded.tokenSeed: ', decoded.tokenSeed);
     //find the user based on the tokenSeed key and it's match its value
