@@ -12,6 +12,7 @@ mongoose.connect(process.env.MONGODB_URI);
 app.use(cors());
 app.use(morgan('dev'));
 app.use(require('../route/user-router.js'));
+app.use(require('../route/review-router.js'));
 //404 catch all route
 app.all('/api/*', (req, res, next) => res.sendStatus(404));
 app.use(require('./error-middleware.js'));
