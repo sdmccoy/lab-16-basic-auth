@@ -17,7 +17,7 @@ describe('\nTesting review routes', () => {
 
   describe('\nTesting POST /api/reviews route', () => {
     describe('If post is successful', () => {
-      it.only('It should respond status 200', () => {
+      it('It should respond status 200', () => {
         let tempUser;
         return mockUser.createOne()
         .then(userData => {
@@ -37,7 +37,53 @@ describe('\nTesting review routes', () => {
             expect(res.body.imageURI).toExist();
           });
         });
-
+      });
+    });
+    describe('If sending no authorization header', () => {
+      it('It should respond status 401', () => {
+        return mockUser.createOne()
+        .then(() => {
+          return superagent.post(`${API_URL}/api/reviews`)
+          .set('Authorization',``)
+          .field('resortName', 'Big Bear')
+          .field('rating', 3)
+          .attach('image', `${__dirname}/assets/ski.jpg`)
+          .catch(err => {
+            expect(err.status).toEqual(401);
+          });
+        });
+      });
+    });
+    describe('If sending a req with no token', () => {
+      it('It should respond status 401', () => {
+        return mockUser.createOne()
+        .then(() => {
+          return superagent.post(`${API_URL}/api/reviews`)
+          .set('Authorization',`Bearer `)
+          .field('resortName', 'Big Bear')
+          .field('rating', 3)
+          .attach('image', `${__dirname}/assets/ski.jpg`)
+          .catch(err => {
+            expect(err.status).toEqual(401);
+          });
+        });
+      });
+    });
+    describe('If sending a req with a bad model content', () => {
+      it('It should respond status 400', () => {
+        let tempUser;
+        return mockUser.createOne()
+        .then(userData => {
+          tempUser = userData;
+          return superagent.post(`${API_URL}/api/reviews`)
+          .set('Authorization',`Bearer ${tempUser.token}`)
+          .field('resortName', 'Big Bear')
+          .field('rating', 98)
+          .attach('image', `${__dirname}/assets/ski.jpg`)
+          .catch(err => {
+            expect(err.status).toEqual(400);
+          });
+        });
       });
     });
   });

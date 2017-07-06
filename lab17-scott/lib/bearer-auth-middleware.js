@@ -20,9 +20,6 @@ module.exports = (req, res, next) => {
   let token = authorization.split('Bearer ')[1];
   if (!token) return next(createError('authorization failed, no bearer token'));
   //use jwt verify method to decrypt the token & our app secret to see if it matches
-  console.log('authorization: ', authorization);
-  console.log('token: ', token);
-  console.log('APP_SECRET: ', process.env.APP_SECRET);
   //need help explaining this one.
   universalify.fromCallback(jwt.verify)(token, process.env.APP_SECRET)
   .then(decoded => {
