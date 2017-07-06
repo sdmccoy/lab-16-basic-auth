@@ -36,8 +36,9 @@ module.exports = (fieldName) => (req, res, next) => {
       console.log('s3Data: ', s3Data);
       //save the data returned to the req object
       req.s3Data = s3Data;
+      console.log('req.file.filename: ', req.file.filename);
       //use fs to remove the file from our temp assets
-      return fs.remove(req.file.filename);
+      return fs.remove(req.file.path);
     })
     .then(() => next())
     .catch(next);
