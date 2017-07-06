@@ -21,6 +21,7 @@ module.exports = (req, res, next) => {
   jwt.verify(token, process.env.APP_SECRET)
   .then(decoded => {
     console.log('decoded.tokenSeed: ', decoded.tokenSeed);
+    //find the user based on the tokenSeed key and it's match its value
     User.findOne({tokenSeed: decoded.tokenSeed});
   })
   .then(user => {
