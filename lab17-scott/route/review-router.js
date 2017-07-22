@@ -11,9 +11,6 @@ const reviewRouter = module.exports = new Router();
 
 reviewRouter.post('/api/reviews', bearerAuth, s3Upload('image'), (req, res, next) => {
   console.log('Hit POST /api/reviews route');
-  console.log('req.user: ', req.user);
-  console.log('req.file: ', req.file);
-  console.log('req.s3Data: ', req.s3Data);
   //start creating a new review now that we've created a user, saved to req object
   //ran through the bearerauth and verified it's they have access
   //ran the req through jwt & multer to attach file prop to req for the image.

@@ -23,12 +23,10 @@ module.exports = (req, res, next) => {
   //need help explaining this one.
   universalify.fromCallback(jwt.verify)(token, process.env.APP_SECRET)
   .then(decoded => {
-    console.log('decoded.tokenSeed: ', decoded.tokenSeed);
     //find the user based on the tokenSeed key and it's match its value
     return User.findOne({tokenSeed: decoded.tokenSeed});
   })
   .then(user => {
-    console.log('user: ', user);
     //if no user found then return error
     if (!user) return next(createError('authorization failed, no user found'));
     //if user is found add the user to the request object

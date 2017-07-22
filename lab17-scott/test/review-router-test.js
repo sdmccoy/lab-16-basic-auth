@@ -21,7 +21,6 @@ describe('\nTesting review routes', () => {
         let tempUser;
         return mockUser.createOne()
         .then(userData => {
-          console.log('userData: ', userData);
           tempUser = userData;
           return superagent.post(`${API_URL}/api/reviews`)
           .set('Authorization', `Bearer ${tempUser.token}`)
@@ -29,7 +28,6 @@ describe('\nTesting review routes', () => {
           .field('rating', 3)
           .attach('image', `${__dirname}/assets/ski.jpg`)
           .then(res => {
-            console.log('res body: ', res.body);
             expect(res.status).toEqual(200);
             expect(res.body.resortName).toEqual('Big Bear');
             expect(res.body.rating).toEqual(3);
